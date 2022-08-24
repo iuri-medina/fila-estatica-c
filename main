@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TAM 10
+
+typedef struct {
+  int head, tail;
+  int item[TAM];
+} TFila;
+
+void fila_inicia(TFila *f) {
+  f->head = 0;
+  f->tail = 0;
+}
+
+int fila_vazia(TFila *f) {
+  if (f->head == f->tail){
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+int fila_cheia(TFila *f) {
+  if (f->tail == TAM) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+void fila_insere(TFila *f, int x) {
+  if (fila_cheia(f) == 1) {
+    printf("Erro: Fila cheia.\n");
+  } else {
+    f->item[f->tail] = x;
+    f->tail++;
+  }
+}
+
+int fila_remove(TFila *f) {
+  int aux;
+  if (fila_vazia(f) == 1) {
+    printf("Erro: Fila vazia.");
+  } else {
+    aux = f->item[f->head];
+    f->head++;
+    return aux;
+  }
+}
+
+void exibir_fila(TFila *f) {
+  int i;
+  if (fila_vazia(f) == 1) {
+    printf("Erro, fila vazia.\n\n");
+  } else {
+    printf("Exibindo fila: \n\n");
+    for (i=f->head; i<f->tail; i++) {
+      printf("[%d]", f->item[i]);
+    }
+    printf("\n\n");
+  }
+}
+
+int main() {
+  int op = 1;
+  int dado;
+
+  TFila *f = (TFila*)malloc(sizeof(TFila));
+  fila_inicia(f);
+
+  while (op != 0) {
+    printf("\n\nMenu\n1 - Inserir\n2 - Excluir\n3 - Exibir fila\n0 - Fim\n\n");
+    scanf("%d", &op);
+    if (op == 1) {
+      printf("Digite o número que deseja inserir na fila: ");
+      scanf("%d", &dado);
+      fila_insere(f, dado);
+      printf("\nO item [%d] foi inserido.", dado);
+    }
+    else if (op == 2) {
+      printf("O item removido foi [%d]", fila_remove(f));
+    }
+    else if (op == 3) {
+      exibir_fila(f);
+    }
+  }
+
+  
+  return 0;
+}
